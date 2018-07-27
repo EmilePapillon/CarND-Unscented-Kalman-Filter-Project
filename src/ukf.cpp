@@ -82,10 +82,10 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   if(!is_initialized_){
     if(meas_package.sensor_type_ == MeasurementPackage::RADAR){
       //initialize using radar
-      x_ << 0,0,0,0,0; //TBD
+      x_ << 0,0,0,0,0; //TODO
     } else if(meas_package.sensor_type_ == MeasurementPackage::LASER){
       //initialize using lidar
-      x_ << 0,0,0,0,0; //TBD
+      x_ << 0,0,0,0,0; //TODO
     }
     is_initialized_ = true;
   }
