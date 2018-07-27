@@ -82,10 +82,12 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   if(!is_initialized_){
     if(meas_package.sensor_type_ == MeasurementPackage::RADAR){
       //initialize using radar
-      x_ << 0,0,0,0,0; //TODO
+      float x = meas_package.raw_measurements_[0]*cos(meas_package.raw_measurements_[1]);
+      float y = -meas_package.raw_measurements_[0]*sin(meas_package.raw_measurements_[1]);
+      x_ << x,y,0,0,0; //note: we cannot initialize v with the radar velocity as it's a different quantity.
     } else if(meas_package.sensor_type_ == MeasurementPackage::LASER){
       //initialize using lidar
-      x_ << 0,0,0,0,0; //TODO
+      x_ << meas_package.raw_measurements_[0],meas_package.raw_measurements_[1],0,0,0; //TODO
     }
     is_initialized_ = true;
   }
