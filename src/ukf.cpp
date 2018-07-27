@@ -24,6 +24,9 @@ UKF::UKF() {
   // initial covariance matrix
   P_ = MatrixXd(5, 5);
 
+  //initialize to identity (CAN BE MODIFIED FOR TUNING)
+  P_ = MatrixXd::Identity(5, 5);
+
   // Process noise standard deviation longitudinal acceleration in m/s^2
   std_a_ = 30;
 
@@ -47,6 +50,9 @@ UKF::UKF() {
   std_radrd_ = 0.3;
   //DO NOT MODIFY measurement noise values above these are provided by the sensor manufacturer.
   
+
+  is_initialized_ = false;
+
   /**
   TODO:
 
@@ -69,6 +75,20 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
+
+  /**
+  Initialize state
+  */
+  if(!is_initialized_){
+    if(meas_package.sensor_type_ == MeasurementPackage::RADAR){
+      //initialize using radar
+      x_ << 0,0,0,0,0; //TBD
+    } else if(meas_package.sensor_type_ == MeasurementPackage::LASER){
+      //initialize using lidar
+      x_ << 0,0,0,0,0; //TBD
+    }
+    is_initialized_ = true;
+  }
 }
 
 /**
