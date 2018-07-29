@@ -66,6 +66,11 @@ UKF::UKF() {
   n_aug_ = 7 ;
 
   lambda_ = 3 - n_aug_;
+
+  weights_ =  VectorXd(2*n_aug_+1);
+
+  Xsig_pred_ = MatrixXd(n_x_, 2 * n_aug_ + 1); 
+
 }
 
 UKF::~UKF() {}
@@ -276,7 +281,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //transform state vector into measurement space
   
   //sigma points transformation 
-
+  cout << "update radar called" << endl;
   int n_z = 3; //number of variables in radar space
   MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug_ + 1); //used to store sigma points in radar measurement space
 
@@ -297,7 +302,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
       //store sigma points for radar space
       Zsig.col(i) = elements;
   } 
-  
+  cout << "transformed sigma points into radar measurement space" << endl;
   //calculate mean predicted measurement based on radar space sigma points
   VectorXd z_pred = VectorXd(n_z);
   z_pred.fill(0.0);
@@ -325,7 +330,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   R.fill(0.0);
   R.diagonal() = diag;
   S = S + R;
-
+  cout << "done computing prediction in measurement space" << endl;
   /**
   Once we have the prediction in measurement space we can update the UKF using the measurement
   */
@@ -353,4 +358,5 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_= x_+ K*(meas_package.raw_measurements_ - z_pred);
   P_= P_- K*S*K.transpose();
+  cout << "update radar finished" << endl;
 }
