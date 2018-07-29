@@ -22,6 +22,9 @@ public:
   ///* if this is false, radar measurements will be ignored (except for init)
   bool use_radar_;
 
+  ///* set this to true to output NIS to csv file
+  bool store_NIS_to_file_;
+  
   ///* state vector: [pos1 pos2 vel_abs yaw_angle yaw_rate] in SI units and rad
   VectorXd x_;
 
@@ -67,7 +70,14 @@ public:
   ///* Sigma point spreading parameter
   double lambda_;
 
+  ///* NIS for laser measurement
+  double NIS_laser_;
 
+  ///* NIS for radar measurement
+  double NIS_radar_;
+
+  ///* file to keep track of the normalized innovation squared  
+  std::ofstream nis_store_; 
   /**
    * Constructor
    */
